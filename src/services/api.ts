@@ -115,19 +115,20 @@ export const api = {
    */
   connectToColabBackend: async () => {
     try {
-      // Example of how you might connect to a Colab backend
-      // const response = await fetch('https://your-ngrok-url.ngrok.io/analyze', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ test: true })
-      // });
-      
-      // if (!response.ok) {
-      //   throw new Error('Failed to connect to Colab backend');
-      // }
-      
-      // const data = await response.json();
-      // console.log("Connected to Colab backend:", data);
+      const API_URL = ' http://4bf2-35-229-121-182.ngrok-free.app';
+
+fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url: "https://example.com/product-page" })
+})
+.then(response => response.json())
+.then(data => {
+    console.log("API Response:", data);
+    // Update your frontend UI with the received data.
+})
+.catch(error => console.error('Error:', error));
+
       
       // For demo, we'll just simulate this
       console.log("Attempting to connect to Colab backend...");

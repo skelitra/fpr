@@ -1,13 +1,11 @@
-
 import React, { useState } from "react";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Icons } from "./Icons";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast"; // Corrected import path
 import { VerificationResults } from "./VerificationResults";
-import { useToast } from "@/components/ui/use-toast";
 
 interface ReviewData {
   text: string;
@@ -37,13 +35,13 @@ export function ProductAnalyzer() {
   const [url, setUrl] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [results, setResults] = useState<AnalysisResult | null>(null);
-  const { toast } = useToast();
+  const { toast } = useToast(); // Keep this line
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!url) {
-      toast({
+      toast({ // Use the toast function directly
         title: "Please enter a URL",
         description: "The product URL is required to perform the analysis.",
         variant: "destructive",
