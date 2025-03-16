@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import Help from "./pages/Help";
+import Settings from "./pages/Settings";
 import { useEffect } from "react";
 import { api } from "./services/api";
 
@@ -18,7 +19,10 @@ const App = () => {
     // Attempt to connect to the Colab backend when the app starts
     const connectBackend = async () => {
       try {
-        await api.connectToColabBackend();
+        const savedUrl = localStorage.getItem('backendUrl');
+        if (savedUrl) {
+          await api.connectToColabBackend(savedUrl);
+        }
       } catch (error) {
         console.error("Failed to initialize backend connection:", error);
       }
@@ -37,6 +41,7 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/help" element={<Help />} />
+            <Route path="/settings" element={<Settings />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

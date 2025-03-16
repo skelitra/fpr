@@ -25,116 +25,104 @@ interface AnalysisResult {
   };
 }
 
+// Store the backend URL
+let BACKEND_URL = '';
+
 export const api = {
   /**
+   * Sets the backend URL for API calls
+   */
+  setBackendUrl: (url: string) => {
+    BACKEND_URL = url;
+    localStorage.setItem('backendUrl', url);
+    console.log("Backend URL set to:", url);
+    return true;
+  },
+
+  /**
+   * Gets the currently set backend URL
+   */
+  getBackendUrl: () => {
+    if (!BACKEND_URL) {
+      BACKEND_URL = localStorage.getItem('backendUrl') || '';
+    }
+    return BACKEND_URL;
+  },
+
+  /**
    * This function makes a request to the backend to analyze a product URL.
-   * In a real-world implementation, this would integrate with your Google Colab backend.
    */
   analyzeProduct: async (url: string): Promise<{ success: boolean; data?: AnalysisResult; error?: string }> => {
     try {
-      // Here you would make the actual API call to your backend service
-      // For example:
-      // const response = await fetch('YOUR_COLAB_API_ENDPOINT', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ url })
-      // });
-      // const data = await response.json();
+      const backendUrl = api.getBackendUrl();
       
-      // Mock response for demo purposes
-      console.log("Analyzing product URL:", url);
+      if (!backendUrl) {
+        return { 
+          success: false, 
+          error: "Backend URL not configured. Please connect to Google Colab first." 
+        };
+      }
+
+      console.log("Analyzing product at URL:", url);
       
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      const response = await fetch(backendUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url })
+      });
       
-      // Mock response
-      const mockResponse: AnalysisResult = {
-        productName: "Premium Wireless Headphones",
-        overallRating: 3.7,
-        isFake: Math.random() > 0.5, // Randomly choose for demo
-        confidenceScore: 87,
-        priceAnalysis: {
-          actual: 129.99,
-          expected: 149.99,
-          deviation: -13.3,
-        },
-        detailsAnalysis: {
-          accurate: true,
-          inconsistencies: [],
-        },
-        reviews: [
-          {
-            text: "These headphones have amazing sound quality and battery life. Definitely worth the price!",
-            sentiment: "positive",
-            isFake: false,
-            score: 4.8,
-          },
-          {
-            text: "The product looks good but the sound quality isn't as advertised. Somewhat disappointed.",
-            sentiment: "negative",
-            isFake: false,
-            score: 2.5,
-          },
-          {
-            text: "BEST HEADPHONES EVER!!! SO AMAZING I CANNOT BELIEVE HOW PERFECT THEY ARE!!",
-            sentiment: "positive",
-            isFake: true,
-            score: 5.0,
-          },
-          {
-            text: "Decent product, comfortable to wear for long periods. Battery life is average.",
-            sentiment: "neutral",
-            isFake: false,
-            score: 3.5,
-          },
-          {
-            text: "Terrible quality. Broke after 2 days. Do not buy this garbage!!!",
-            sentiment: "negative",
-            isFake: true,
-            score: 1.0,
-          },
-        ],
-      };
+      if (!response.ok) {
+        throw new Error(`Server responded with status: ${response.status}`);
+      }
       
-      return { success: true, data: mockResponse };
+      const data = await response.json();
+      
+      // If the backend returns mock data for now, that's fine
+      return { success: true, data: data };
     } catch (error) {
       console.error("Error analyzing product:", error);
       return { 
         success: false, 
-        error: "Failed to connect to analysis service. Please try again." 
+        error: "Failed to connect to analysis service. Please check your backend connection." 
       };
     }
   },
   
   /**
-   * This function shows how to integrate with a Python backend like Google Colab.
-   * In a real implementation, you would:
-   * 1. Host your Python code in Colab with ngrok or similar to expose an API
-   * 2. Create API endpoints in your Colab notebook to handle requests
-   * 3. Send requests from this frontend to your exposed API
+   * This function attempts to connect to the Google Colab backend
    */
-  connectToColabBackend: async () => {
+  connectToColabBackend: async (url?: string) => {
     try {
-      const API_URL = ' http://4bf2-35-229-121-182.ngrok-free.app';
-
-fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ url: "https://example.com/product-page" })
-})
-.then(response => response.json())
-.then(data => {
-    console.log("API Response:", data);
-    // Update your frontend UI with the received data.
-})
-.catch(error => console.error('Error:', error));
-
+      // If URL is provided, save it
+      if (url) {
+        api.setBackendUrl(url);
+      }
       
-      // For demo, we'll just simulate this
+      // Use stored URL or fallback to empty
+      const backendUrl = api.getBackendUrl();
+      
+      if (!backendUrl) {
+        toast({
+          title: "Backend URL Missing",
+          description: "Please provide a Google Colab URL to connect to the backend.",
+          variant: "destructive",
+        });
+        return false;
+      }
+
       console.log("Attempting to connect to Colab backend...");
-      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Simulate successful connection
+      // Test the connection with a simple request
+      const response = await fetch(backendUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'ping' })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Server responded with status: ${response.status}`);
+      }
+      
       toast({
         title: "Backend Connected",
         description: "Successfully connected to Google Colab backend.",
@@ -145,7 +133,7 @@ fetch(API_URL, {
       console.error("Failed to connect to Colab backend:", error);
       toast({
         title: "Connection Failed",
-        description: "Could not connect to Google Colab backend. Check your configuration.",
+        description: "Could not connect to Google Colab backend. Check your URL and make sure your Colab is running.",
         variant: "destructive",
       });
       return false;
