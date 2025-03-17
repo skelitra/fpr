@@ -1,22 +1,22 @@
-# Welcome to your Lovable project
+# Welcome to your Project
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/5b00f865-1aba-4e42-998d-85ccd3aa46cf
+**URL**: https://yourproject.dev/projects/5b00f865-1aba-4e42-998d-85ccd3aa46cf
 
 ## How can I edit this code?
 
 There are several ways of editing your application.
 
-**Use Lovable**
+**Use legitex**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5b00f865-1aba-4e42-998d-85ccd3aa46cf) and start prompting.
+Simply visit the [legitex](https://yourproject.dev/projects/5b00f865-1aba-4e42-998d-85ccd3aa46cf) and start prompting.
 
-Changes made via Lovable will be committed automatically to this repo.
+Changes made via legitex will be committed automatically to this repo.
 
 **Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in legitex.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
@@ -62,8 +62,12 @@ This project is built with .
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/5b00f865-1aba-4e42-998d-85ccd3aa46cf) and click on Share -> Publish.
+Simply open [legitex](https://yourproject.dev/projects/5b00f865-1aba-4e42-998d-85ccd3aa46cf) and click on Share -> Publish.
 
 ## I want to use a custom domain - is that possible?
 
 We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+
+# netlify
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/749aa13f-69c2-45e4-b230-328a9dfe9169/deploy-status)](https://app.netlify.com/sites/legitex/deploys)

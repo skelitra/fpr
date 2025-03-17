@@ -23,7 +23,7 @@ const About = () => {
               <div className="prose prose-lg dark:prose-invert max-w-none">
                 <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
                 <p>
-                  At Verify, we're dedicated to protecting consumers from counterfeit products. Our platform uses 
+                  At Legitex, we're dedicated to protecting consumers from counterfeit products. Our platform uses 
                   advanced artificial intelligence to analyze product listings and reviews across e-commerce sites, 
                   helping you identify potentially fake or misleading products before you make a purchase.
                 </p>
@@ -74,7 +74,7 @@ const About = () => {
                 <p>
                   Have questions or feedback? We'd love to hear from you. Reach out to our team at 
                   <a href="mailto:info@verify.example.com" className="text-primary hover:underline mx-1">
-                    info@verify.example.com
+                    info@Legitex.example.com
                   </a>
                 </p>
               </div>
